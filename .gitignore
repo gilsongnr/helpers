@@ -1,0 +1,6 @@
+backup
+*.exe
+*.dcu
+*.o
+*.ppu
+*.lps

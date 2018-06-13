@@ -1,6 +1,5 @@
 {*******************************************************************
- Project: Messenger Forms, 
-	Components e Classes helpers
+ Project: Classes helpers
 
   Copyright (C) 2017 Gilson Nunes Rodrigues
 
@@ -10,15 +9,13 @@
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  
-  Gilson Nunes Rodrigues - gilson.gnr@gmail.com  
+
+  Gilson Nunes Rodrigues - gilson.gnr@gmail.com
 *******************************************************************}
 
 unit helpers.Graphics;
 
-{$IFDEF FPC}
-{$mode Delphi}
-{$ENDIF}
+{$i gdefines.inc}
 
 interface
 

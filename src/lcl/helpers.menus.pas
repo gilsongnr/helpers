@@ -23,6 +23,9 @@ uses
   Menus, Classes;
 
 type
+
+  { TMenuItemHelper }
+
   TMenuItemHelper = class helper for TMenuItem
   public
     function AddItem(aItem: TMenuItem): TMenuItem;
@@ -34,6 +37,7 @@ type
     function AddNewItem(aPosition: Integer; const aCaption: string; aOnClick: TNotifyEvent = nil): TMenuItem; overload;
     function CreateClone(aOwner: TComponent): TMenuItem; overload;
     function CreateClone(): TMenuItem; overload;
+    procedure CopySubItens(aItem: TMenuItem);
   end;
 
 implementation
@@ -96,11 +100,20 @@ begin
   Result.Caption    := Caption;
   Result.ImageIndex := ImageIndex;
   Result.OnClick    := OnClick;
+  Result.CopySubItens(Self);
 end;
 
-function TMenuItemHelper.CreateClone: TMenuItem;
+function TMenuItemHelper.CreateClone(): TMenuItem;
 begin
   Result := CreateClone(Self);
+end;
+
+procedure TMenuItemHelper.CopySubItens(aItem: TMenuItem);
+var
+  i: Integer;
+begin
+  for i := 0 to aItem.Count - 1 do
+    Add(aItem.Items[i].CreateClone(Self));
 end;
 
 end.

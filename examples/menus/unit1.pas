@@ -5,14 +5,15 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus, helpers.Menus;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
+  StdCtrls, helpers.Menus;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    ImageList1: TImageList;
+    Label1: TLabel;
   public
     constructor Create(TheOwner: TComponent); override;  
   private
@@ -30,10 +31,22 @@ implementation
 { TForm1 }
 
 constructor TForm1.Create(TheOwner: TComponent);
+var
+  s: TMemoryStream;
 begin
   inherited Create(TheOwner);
-  Self.Menu := TMainMenu.Create(Self);
-  Self.Menu.Images := ImageList1;
+  Self.Menu        := TMainMenu.Create(Self);
+  Self.Menu.Images := TImageList.Create(Self);
+
+  s := TMemoryStream.Create;
+  try
+    s.LoadFromFile('./imagelistdta');
+    s.Position := 0;
+    Menu.Images.ReadData(s);
+  finally
+    s.Free;
+  end;
+
   with Self.Menu.Items do
   begin
     with AddNewItem('file') do
@@ -45,7 +58,8 @@ begin
 
     with AddNewItem('Edit') do
     begin                           
-      AddNewItem('Find', 2, @MenuTest);
+      AddNewItem('Find', 2, @MenuTest);  
+      AddNewItem('-');
       AddNewItem('Select', @MenuTest);
       AddNewItem('Copy', @MenuTest);
       AddNewItem('Past', @MenuTest);
@@ -58,7 +72,11 @@ begin
       AddNewItem('Free Pascal', 0, @MenuTest);
     end;
   end;
-end;  
+
+  PopupMenu := TPopupMenu.Create(Self);
+  PopupMenu.Images := Menu.Images;
+  PopupMenu.Items.CopySubItens(Menu.Items[1]);
+end;
 
 procedure TForm1.MenuTest(aSender: TObject);
 begin
